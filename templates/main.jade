@@ -1,0 +1,24 @@
+include ./partials/__header.jade
+body
+    div.jumbotron
+        h1 Bar Rollcall
+        h2 Find local bars and RSVP
+        if !loggedIn
+            button.alert-info
+                a(href="/login") Sign In With Twitter
+    div#searchForm
+        input#localeInput(type="text", name="locale", placeholder="City")
+        button#localeSubmit Find spots
+    div#searchResults
+script.
+   
+    $("#localeSubmit").on("click", function(){
+    var localeInput = $("#localeInput").val();
+    if(localeInput.length){
+            console.log("query sent?");
+            $.ajax({"url":"/search", method:"POST", data: {"localeInput": localeInput}, 
+            success: function(data){
+            console.log(data);
+            }});
+    }
+    });
