@@ -41,12 +41,13 @@ var yelp = new Yelp({
         if(req.body.localeInput.length){
             yelp.search({ term: 'bar', location: req.body.localeInput, limit: 20})
             .then(function (data) {
-                var bars = [];
-                for(var i = 0; i < data.length; i++){
-                    
+                var barsList = [];
+                var bars = data.businesses;
+                console.log(bars);
+                for(var i = 0; i < bars.length; i++){
+                    barsList.push({"id": bars[i].id, "address": bars[i].location.address, "city": bars[i].location.city, "country": bars[i].location.country_code, "state": bars[i].location.state_code, "phone": bars[i].display_phone, "name": bars[i].name, "review1": bars[i].snippet_text, "barPage": bars[i].url});
                 }
-               // console.log(data.businesses);
-                res.json(data.businesses);
+                res.json(barsList);
         })
         .catch(function (err) {
             console.error(err);

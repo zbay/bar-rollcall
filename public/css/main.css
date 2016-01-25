@@ -1,0 +1,31 @@
+body{
+    color:white;
+    background-image:url('../img/navy_background.jpg');
+}
+#searchForm{
+    color:navy;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+.jumbotron{
+    background-color:#AA8D39;
+    color:white;
+    text-align:center;
+    font-weight:bold;
+}
+.barBlurb{
+    border:3px solid #AA8D39;
+    padding-top:20px;
+    padding-bottom:10px;
+}
+.barBlurb button{
+    color:navy;
+    border-radius:10px;
+}
+.barBlurb a{
+    color:lightblue;
+}
+.barAddress{
+    text-decoration:underline;
+}
