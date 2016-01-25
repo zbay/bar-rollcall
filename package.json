@@ -11,10 +11,12 @@
     "client-sessions": "^0.7.0",
     "dotenv": "^2.0.0",
     "express": "~3.2.4",
+    "express-session": "^1.13.0",
     "jade": "^1.11.0",
     "mongodb": "^2.1.4",
     "mongoose": "^4.3.7",
     "passport": "^0.3.2",
+    "passport-twitter": "^1.0.3",
     "request": "^2.67.0",
     "socket.io": "~0.9.14",
     "yelp": "^1.0.1"

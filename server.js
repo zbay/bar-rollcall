@@ -8,7 +8,8 @@ var app = express();
 var mongo = require('mongodb');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index.js');
-var session = require('client-sessions');
+//var session = require('client-sessions');
+var session = require('express-session');
 var dotenv = require('dotenv').load();
 var passport = require('passport');
 
@@ -26,12 +27,12 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(session({
-  cookieName: 'session',
   secret: process.env.SESSION_SECRET,
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
+  resave: true,
+  saveUninitialized: true,
   isLoggedIn: false
 }));
 
