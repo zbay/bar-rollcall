@@ -35,7 +35,6 @@ app.use(session({
   saveUninitialized: true,
   isLoggedIn: false,
   lastQuery: null,
-  lastClick: null,
   loadLastStuff: null,
   userID: null
 }));

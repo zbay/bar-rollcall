@@ -14,8 +14,7 @@ body
         button#localeSubmit Find spots
     br
     div#searchResults
-    if loadLastStuff
+    script(src="../static/js/events.js")
+    if lastQuery
         script.
             $("#localeSubmit").click();
-script(src="../static/js/events.js")
-       

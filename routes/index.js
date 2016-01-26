@@ -21,7 +21,7 @@ var yelp = new Yelp({
 		}
 	}
     app.get("/", function(req, res){
-            res.render("main", {loggedIn: req.session.isLoggedIn});
+            res.render("main", {loggedIn: req.session.isLoggedIn, loadLastStuff: req.session.loadLastStuff, lastQuery: req.session.lastQuery});
     });
 
     app.post("/search", function(req, res){
@@ -61,7 +61,6 @@ var yelp = new Yelp({
     });
     app.post("/checkIn", function(req, res){
         var theBar = req.body.barID;
-        req.session.lastClick = theBar;
         if(req.session.isLoggedIn){
         Attendance.find({"barID": theBar}, function(err, data){
             //console.log(data);
@@ -88,6 +87,7 @@ var yelp = new Yelp({
         });  
         }
         else{
+            req.session.loadLastStuff = true;
             res.json({"redirect": "/auth/twitter"});
         }
 
@@ -103,7 +103,6 @@ app.get('/auth/twitter/return',
   function(req, res) {
     // Successful authentication
     req.session.isLoggedIn = true;
-    req.session.loadLastStuff = true;
     req.session.userID = req.user._id;
     res.redirect("/");
     //res.json(req.user);
