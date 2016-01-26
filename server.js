@@ -33,7 +33,10 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  isLoggedIn: false
+  isLoggedIn: false,
+  lastQuery: null,
+  lastClick: null,
+  userID: null
 }));
 
 app.set('view engine', 'jade');

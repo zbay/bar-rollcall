@@ -1,10 +1,10 @@
 {
-  "name": "chat-example",
+  "name": "Bar Rollcall",
   "version": "0.0.0",
-  "description": "A chat example to showcase how to use `socket.io` with a static `express` server with `async` for control flow.",
+  "description": "Find local bars and RSVP to them",
   "main": "server.js",
   "repository": "",
-  "author": "Mostafa Eweda <mo.eweda@gmail.com>",
+  "author": "Zachary Williams <zlwilliams1@gmail.com>",
   "dependencies": {
     "async": "~0.2.8",
     "body-parser": "^1.14.2",
@@ -18,6 +18,7 @@
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.3",
     "request": "^2.67.0",
+    "rsvp": "^3.1.0",
     "socket.io": "~0.9.14",
     "yelp": "^1.0.1"
   }

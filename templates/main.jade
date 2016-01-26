@@ -7,39 +7,9 @@ body
             button.alert-info
                 a(href="/auth/twitter") Sign In With Twitter
     div#searchForm
-        input#localeInput(type="text", name="locale", placeholder="City, State (Optional)")
+        input#localeInput(type="text", name="locale", placeholder="Chapel Hill, NC")
         button#localeSubmit Find spots
     br
     div#searchResults
-script.
-   
-    $("#localeSubmit").on("click", function(){
-    var localeInput = $("#localeInput").val();
-    if(localeInput.length){
-            $("#searchResults").empty();
-            console.log("query sent?");
-            $.ajax({"url":"/search", method:"POST", data: {"localeInput": localeInput}, 
-            success: function(data){
-            for(var i = 0; i < data.length; i++){
-            console.log(data[i].imageSrc);
-            if(data[i].state){
-                var barBlurb = $("<div class='barBlurb container'><div class='row'><div class='col-xs-3 col-sm-3'><div class='barAddress'>" + data[i].address + "<br />" + data[i].city +
-                ", " + data[i].state +
-                "</div><div class='barPhone'>" + data[i].phone + "</div></div><div class='col-xs-9 col-sm-9'><a target='_blank' href='" + data[i].barPage + "'>" + data[i].name +
-                "</a>&nbsp;&nbsp;<button class='checkInButton' value='" + data[i].id + 
-                /* INSERT THE NUMBER GOING LATER */"'>0 Going</button><br /><div class='reviewSnip'>" + data[i].review1  
-                + "</div></div></div><br />");
-            }
-            else{
-                   var barBlurb = $("<div class='barBlurb container'><div class='row'><div class='col-xs-3 col-sm-3'><div class='barAddress'>" + data[i].address + "<br />" + data[i].city +
-                ", " + data[i].country +
-                "</div><div class='barPhone'>" + data[i].phone + "</div></div><div class='col-xs-9 col-sm-9'><a target='_blank' href='" + data[i].barPage + "'>" + data[i].name +
-                "</a>&nbsp;&nbsp;<button class='checkInButton' value='" + data[i].id + 
-                /* INSERT THE NUMBER GOING LATER */"'>0 Going</button><br /><div class='reviewSnip'>" + data[i].review1  
-                + "</div></div></div><br />");
-            }
-                $("#searchResults").append(barBlurb);
-            }
-            }});
-    }
-    });
+script(src="../static/js/events.js")
+       

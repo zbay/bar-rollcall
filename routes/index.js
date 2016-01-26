@@ -3,6 +3,9 @@ var request = require('request');
 var baseYelpURL = "https://api.yelp.com/v2/term=bar&location=";
 var Yelp = require('yelp');
 var dotenv = require("dotenv");
+var mongoose = require("mongoose");
+var Attendance = require("../dbmodels/attendance");
+var async = require('async');
 var yelp = new Yelp({
   consumer_key: process.env.YELP_CONSUMER_KEY,
   consumer_secret: process.env.YELP_CONSUMER_SECRET,
@@ -20,40 +23,71 @@ var yelp = new Yelp({
     app.get("/", function(req, res){
             res.render("main", {loggedIn: req.session.isLoggedIn});
     });
-    app.get("/login", function(req, res){
-            if(req.session.isLoggedIn){
-                res.redirect("/");
-            }
-            else{
-                res.render("login");
-            }
-        });
-    app.post("/login", function(req, res){
-         if(req.session.isLoggedIn){
-                res.redirect("/");
-            }
-            else{
-                
-            }
-    });
+
     app.post("/search", function(req, res){
-        console.log(req.body.localeInput);
+        //console.log(req.body.localeInput);
+        req.session.lastQuery = req.body.localeInput;
         if(req.body.localeInput.length){
             yelp.search({ term: 'bar', location: req.body.localeInput, limit: 20})
             .then(function (data) {
                 var barsList = [];
                 var bars = data.businesses;
-                console.log(bars);
-                for(var i = 0; i < bars.length; i++){
-                    barsList.push({"id": bars[i].id, "address": bars[i].location.address, "city": bars[i].location.city, "country": bars[i].location.country_code, "state": bars[i].location.state_code, "phone": bars[i].display_phone, "name": bars[i].name, "review1": bars[i].snippet_text, "barPage": bars[i].url});
+                async.each(bars, appendBar, returnBars);
+                
+                function appendBar(bar, callback){
+                                        var attendeesNum;
+                    Attendance.findOne({"barID": bar.id}, function(err, msg){
+                        if(msg){
+                            attendeesNum = msg.attendees.length;
+                        }
+                        else{
+                            attendeesNum = 0;
+                        }
+                        barsList.push({"id": bar.id, "address": bar.location.address, "city": bar.location.city, 
+                         "country": bar.location.country_code, "state": bar.location.state_code, 
+                         "phone": bar.display_phone, "name": bar.name, "review1": bar.snippet_text, "barPage": bar.url, "attendeesNum": attendeesNum});
+                         return callback();
+                });
+        
                 }
-                res.json(barsList);
+                function returnBars(){
+                  res.json(barsList);   
+                }
         })
         .catch(function (err) {
             console.error(err);
         });
         }
     });
+    app.post("/checkIn", function(req, res){
+        console.log("checking in");
+        var theBar = req.body.barID;
+        req.session.lastClick = theBar;
+        Attendance.find({"barID": theBar}, function(err, data){
+            //console.log(data);
+            if(data.length == 0){
+                  var newAttendance = new Attendance({"barID": req.body.barID});
+            newAttendance.save(function(err, message){
+                if(!err){
+                  Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, data){
+                      //console.log(data);
+                      res.json({"success": true});
+                  });   
+                }
+                else{
+                 res.json("success", false);   
+                }
+        });
+            }
+            else{
+                 Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, data){
+                     //console.log(data);
+                 });   
+                 res.json({"success": true});
+            }
+        });
+    });
+    
     
 var passportTwitter = require('../auth/twitter');
 
@@ -63,6 +97,9 @@ app.get('/auth/twitter/return',
   passportTwitter.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication
-    res.json(req.user);
+    req.session.isLoggedIn = true;
+    req.session.userID = req.user._id;
+    res.redirect("/");
+    //res.json(req.user);
   });
 }
