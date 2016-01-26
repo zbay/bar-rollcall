@@ -36,6 +36,7 @@ app.use(session({
   isLoggedIn: false,
   lastQuery: null,
   lastClick: null,
+  loadLastStuff: null,
   userID: null
 }));
 

@@ -40,7 +40,7 @@
             }
             });
             function checkIn(barID, attendees){
-             console.log("clicked");
+                            console.log("clicked");
             console.log(barID);
             $.ajax({
                 url: "/checkIn", method: "POST", data: {"barID": barID},
@@ -50,6 +50,10 @@
                         console.log(currentNum);
                         $("#" + barID).html(currentNum+1);
                 }
+                if(data.redirect){
+                    window.location = data.redirect;
+                }
+                else{}
             }
         });
             }

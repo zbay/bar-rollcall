@@ -4,12 +4,18 @@ body
         h1 Bar Rollcall
         h2 Find local bars and RSVP
         if !loggedIn
-            button.alert-info
+            button#twitterLogin.alert-info
                 a(href="/auth/twitter") Sign In With Twitter
     div#searchForm
-        input#localeInput(type="text", name="locale", placeholder="Chapel Hill, NC")
+        if lastQuery
+            input#localeInput(type="text", name="locale", value=lastQuery)
+        else
+            input#localeInput(type="text", name="locale", placeholder="Chapel Hill, NC")
         button#localeSubmit Find spots
     br
     div#searchResults
+    if loadLastStuff
+        script.
+            $("#localeSubmit").click();
 script(src="../static/js/events.js")
        

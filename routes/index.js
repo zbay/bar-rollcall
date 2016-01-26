@@ -60,9 +60,9 @@ var yelp = new Yelp({
         }
     });
     app.post("/checkIn", function(req, res){
-        console.log("checking in");
         var theBar = req.body.barID;
         req.session.lastClick = theBar;
+        if(req.session.isLoggedIn){
         Attendance.find({"barID": theBar}, function(err, data){
             //console.log(data);
             if(data.length == 0){
@@ -85,7 +85,12 @@ var yelp = new Yelp({
                  });   
                  res.json({"success": true});
             }
-        });
+        });  
+        }
+        else{
+            res.json({"redirect": "/auth/twitter"});
+        }
+
     });
     
     
@@ -98,6 +103,7 @@ app.get('/auth/twitter/return',
   function(req, res) {
     // Successful authentication
     req.session.isLoggedIn = true;
+    req.session.loadLastStuff = true;
     req.session.userID = req.user._id;
     res.redirect("/");
     //res.json(req.user);
