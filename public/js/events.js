@@ -23,9 +23,8 @@
                 var restOfBlurb = $("<div></div>").addClass("col-xs-9").addClass("col-sm-9");
                     var barLink = $("<a></a>").text(data[i].name).attr("href", data[i].barPage).attr("target", "_blank");
                     barLink.append("&nbsp;&nbsp;&nbsp;");
-                    console.log(data[i].id);
-                    var checkinButton = $("<button></button").addClass("checkInButton").attr("onclick", "checkIn('" + data[i].id + "')");
-                        var checkinTotal = $("<span></span>").text(data[i].attendeesNum).addClass("attendees");
+                    var checkinButton = $("<button></button").addClass("checkInButton").attr("onclick", "checkIn('" + data[i].id + "', '" + data[i].attendeesNum + "')");
+                        var checkinTotal = $("<span></span>").text(data[i].attendeesNum).addClass("attendees").attr("id", data[i].id);
                         var checkinStatic = $("<span></span>").text(" going");
                     checkinButton.append(checkinTotal); checkinButton.append(checkinStatic);
                     var barReview = $("<div></div>").addClass("reviewSnip").text(data[i].review1);
@@ -40,16 +39,16 @@
             }});
             }
             });
-            function checkIn(barID){
+            function checkIn(barID, attendees){
              console.log("clicked");
             console.log(barID);
             $.ajax({
                 url: "/checkIn", method: "POST", data: {"barID": barID},
                 success: function(data){
                     if(data.success){
-                        var currentNum = parseInt($(".attendees", this).html());
-                        
-                        $(".attendees", this).html(currentNum+1);
+                        var currentNum = parseInt(attendees);
+                        console.log(currentNum);
+                        $("#" + barID).html(currentNum+1);
                 }
             }
         });
