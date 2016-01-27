@@ -107,7 +107,7 @@ var passportTwitter = require('../auth/twitter');
 app.get('/auth/twitter', passportTwitter.authenticate('twitter'));
 
 app.get('/auth/twitter/return',
-  passportTwitter.authenticate('twitter', { failureRedirect: '/login' }),
+  passportTwitter.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication
     req.session.isLoggedIn = true;
