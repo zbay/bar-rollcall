@@ -40,20 +40,25 @@
             }
             });
             function checkIn(barID, attendees){
-                            console.log("clicked");
-            console.log(barID);
+            console.log("triggered" + attendees);
             $.ajax({
                 url: "/checkIn", method: "POST", data: {"barID": barID},
                 success: function(data){
                     if(data.success){
-                        var currentNum = parseInt(attendees);
-                        console.log(currentNum);
-                        $("#" + barID).html(currentNum+1);
+                         var currentNum = parseInt(attendees);
+                        if(!data.decrement){
+                            currentNum++;
+                        }
+                        else{
+                            currentNum--;
+                        }
+                        $("#" + barID).html(currentNum);
+                        console.log("checkIn('" + barID + "', '" + currentNum + "')");
+                        $("#" + barID).parent().attr("onclick", "checkIn('" + barID + "', '" + currentNum + "')");
                 }
                 if(data.redirect){
                     window.location = data.redirect;
                 }
-                else{}
             }
         });
             }

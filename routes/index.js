@@ -68,10 +68,10 @@ var yelp = new Yelp({
                   var newAttendance = new Attendance({"barID": req.body.barID});
             newAttendance.save(function(err, message){
                 if(!err){
-                  Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, data){
-                      //console.log(data);
+                          Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, data){
                       res.json({"success": true});
-                  });   
+                     //console.log(data);
+                 });   
                 }
                 else{
                  res.json("success", false);   
@@ -79,10 +79,18 @@ var yelp = new Yelp({
         });
             }
             else{
-                 Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, data){
-                     //console.log(data);
-                 });   
-                 res.json({"success": true});
+                                  Attendance.update({"barID": theBar}, {$addToSet: {"attendees": req.session.userID}}, function(err, doc){
+                      	if(doc.nModified == 0){
+				//req.session.successMessage = "Vote removed!";
+				Attendance.update({"barID": theBar}, {$pull: {"attendees": req.session.userID}}, function(error, msg){
+					res.json({"success": true, "decrement": true});
+				});
+			}
+			else{
+			      res.json({"success": true});
+			}
+                      //console.log(data);
+                  });   
             }
         });  
         }
