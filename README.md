@@ -1,22 +1,11 @@
+Bar Rollcall Version 1.0
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+https://bar-rollcall.herokuapp.com/
 
+Using Yelp's API, you can search for bars in your area. You then see information about the bar and the number of people who have used this app to check in to that bar.
 
-Welcome to your Node.js project on Cloud9 IDE!
+You can then check in to these bars, after logging in using Twitter's API.
 
-This chat example showcases how to use `socket.io` with a static `express` server.
+A cron job runs every morning to set all the attendance numbers to zero.
 
-## Running the server
-
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
-
-2) Alternatively you can launch the app from the Terminal:
-
-    $ node server.js
-
-Once the server is running, open the project in the shape of 'https://projectname-username.c9.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+This was made to fulfill an assignment for FreeCodeCamp, described here: http://www.freecodecamp.com/challenges/build-a-nightlife-coordination-app
