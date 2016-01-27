@@ -3,6 +3,12 @@
         if(localeInput.length){
             $("#searchResults").empty();
             $.ajax({url:"/search", method:"POST", data: {"localeInput": localeInput}, 
+              beforeSend: function(){
+                $('#loader').show()
+            },
+            complete: function(){
+                $('#loader').hide();
+            },
             success: function(data){
             var barBlurb = $("<div></div>").addClass("barBlurb").addClass("container");
             for(var i = 0; i < data.length; i++){

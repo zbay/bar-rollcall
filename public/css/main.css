@@ -29,3 +29,7 @@ body{
 .barAddress{
     text-decoration:underline;
 }
+#loader{
+    font-size:40px;
+    color:yellow;
+}
