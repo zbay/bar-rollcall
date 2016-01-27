@@ -8,7 +8,6 @@ var app = express();
 var mongo = require('mongodb');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index.js');
-//var session = require('client-sessions');
 var session = require('express-session');
 var dotenv = require('dotenv').load();
 var passport = require('passport');
